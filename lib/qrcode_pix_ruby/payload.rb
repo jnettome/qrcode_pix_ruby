@@ -25,7 +25,7 @@ module QrcodePixRuby
     ID_CRC16                                    = '63'
 
     ATTRIBUTES = %i[pix_key url repeatable currency country_code description postal_code
-                    merchant_name merchant_city transaction_id amount].freeze
+                    merchant_name merchant_code merchant_city transaction_id amount].freeze
 
     def initialize(**kwargs)
       verify_kwargs(kwargs.keys)
@@ -42,7 +42,7 @@ module QrcodePixRuby
       p += emv(ID_PAYLOAD_FORMAT_INDICATOR, '01')
       p += emv_repeatable
       p += emv_merchant
-      p += emv(ID_MERCHANT_CATEGORY_CODE, '0000')
+      p += emv(ID_MERCHANT_CATEGORY_CODE, merchant_code || '0000')
       p += emv(ID_TRANSACTION_CURRENCY, currency || '986')
       p += emv(ID_TRANSACTION_AMOUNT, amount) if amount
       p += emv(ID_COUNTRY_CODE, country_code || 'BR')
